@@ -1,0 +1,11 @@
+%dw 2.0
+
+type auto_8884c56c_9eb4_4a92_bae5_349d40aca471_Input_Variables_query = {|
+  Name?: String, 
+  Title?: String, 
+  Company?: String, 
+  "Lead Status"?: String, 
+  "Lead Source"?: String, 
+  "Last Activity"?: String
+|}
+

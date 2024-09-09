@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<flow name="post-leadFlow" doc:id="b31cb021-f8a0-4062-869e-0aaa2a55c69d" >
+		<logger level="INFO" doc:name="Before salesforce" doc:id="718cd61b-e274-4e71-b268-d0e382fdf800" message="Before salesforce" />
+		<ee:transform doc:name="Transform Message" doc:id="ab0a0867-edd1-4867-8f46-0ccf0f87c4a7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload map (data, index) ->
+{
+	"FirstName": data."First Name",
+    "LastName" : data."Last Name",
+    "Title": data.Title,
+    "Company": data.Company,
+    "Status" : data."Lead Status",
+    "LeadSource" : data."Lead Source",
+    "Phone"  : data.Phone,
+    "Email" : data.Email
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create doc:name="Create" doc:id="7c733132-3193-4f65-8fbf-822f69085150" config-ref="salesforce_Config" type="Lead"/>
+		<logger level="INFO" doc:name="After salesforce" doc:id="8bba8c42-0326-4edf-83f5-3f269ed1c455" message="After salesforce" />
+		<ee:transform doc:name="Transform Message" doc:id="b5e82bc1-654f-454b-b77c-5cc344a08f19" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

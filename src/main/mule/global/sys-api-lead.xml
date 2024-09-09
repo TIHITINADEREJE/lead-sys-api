@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="sys-api-lead-main">
+        <http:listener config-ref="sys-api-lead-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <logger level="INFO" doc:name="Entry Logger" doc:id="84cf3d18-0d5f-46ba-a617-061b9d358424" message="Entry Logger"/>
+		<apikit:router config-ref="sys-api-lead-config" />
+		<error-handler ref="Gloabl-Error_Handler" />
+    </flow>
+    <flow name="sys-api-lead-console">
+        <http:listener config-ref="sys-api-lead-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="sys-api-lead-config" />
+		<error-handler ref="Gloabl-Error_Handler" />
+    </flow>
+    <flow name="get:\lead:sys-api-lead-config">
+        <ee:transform doc:name="query">
+            <ee:message>
+            </ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="query" ><![CDATA[attributes.queryParams]]></ee:set-variable>
+			</ee:variables>
+        </ee:transform>
+		<flow-ref doc:name="get-leadFlow" doc:id="bf0c3831-6830-4b0e-a79b-3a8434ec841e" name="get-leadFlow"/>
+    </flow>
+    <flow name="post:\lead:application\json:sys-api-lead-config">
+		<flow-ref doc:name="post-leadFlow" doc:id="312e5831-f29f-45f1-b053-4a55ad7de4fe" name="post-leadFlow"/>
+    </flow>
+</mule>

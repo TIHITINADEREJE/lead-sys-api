@@ -1,0 +1,144 @@
+#%RAML 1.0
+title: sys-api-lead
+
+  
+/lead:
+  get:
+    queryParameters:
+      Name:
+        type: string
+        required : false
+      Title:
+        type: string
+        required : false
+      Company:
+        type: string
+        required : false
+      Lead Status:
+        type: string
+        required : false
+      Lead Source:
+        type: string
+        required : false
+      Last Activity:
+        type: date-only
+        required : false
+    responses:
+      200:
+        body:
+          application/json:
+            examples: 
+              values:             
+                {
+                  "Name": "Amy Jordan",
+                  "Title": "VP Purchasing",
+                  "Company": "Lee Enterprise, Inc",
+                  "Lead Status": "New",
+                  "Lead Source" : "Website",
+                  "Last Activity" : 18/9/2024
+                }
+      400:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Bad request"
+      401:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Unauthorized" 
+      404:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Not Found"     
+      500:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Internal Sevor Error"  
+  post:
+    headers:
+      client_id:
+        type: string
+      client_secret:
+        type: string
+    body:
+      application/json:
+        type: array
+        items:
+          type: object
+          properties:
+            Name:
+              type: string
+              required : false
+            Title:
+              type: string
+              required : false
+            Company:
+              type: string
+              required : false
+            Lead Status:
+              type: string
+              required : false
+            Lead Source:
+              type: string
+              required : false
+            Last Activity:
+              type: date-only
+              required : false
+        examples: 
+          values:               
+            [
+              {
+                  "Name": "Amy Jordan",
+                  "Title": "VP Purchasing",
+                  "Company": "Lee Enterprise, Inc",
+                  "Lead Status": "New",
+                  "Lead Source" : "Website",
+                  "Last Activity" : 2024-09-18
+                },
+              {
+                  "Name": "Andy Smith",
+                  "Title": "Vice President",
+                  "Company": "Universal Technologies",
+                  "Lead Status": "New",
+                  "Lead Source" : "Advertisement",
+                  "Last Activity" : 2024-09-27
+                }
+            ]
+    responses:
+      201:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Lead created successfully"
+      400:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Bad request"
+      401:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Unauthorized" 
+      404:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Not Found"     
+      500:
+        body:
+          application/json:
+            examples:
+              values:
+                message : "Internal Sevor Error"            

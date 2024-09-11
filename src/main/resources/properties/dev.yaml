@@ -1,0 +1,10 @@
+http:
+  host : "0.0.0.0"
+  port : "8081"
+  path: "/api/*"
+sf:
+  userName : "tihitinaderejeshewakena-yqhy@force.com"
+  password : "0909704209Gt#1"
+  securityToken: "gxUocqkjWNuhfBom8gjMb3Wk"
+  authorizationURL : "https://login.salesforce.com/services/Soap/u/60.0"
+  

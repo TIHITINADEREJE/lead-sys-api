@@ -8,12 +8,23 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 	<flow name="get-leadFlow" doc:id="8884c56c-9eb4-4a92-bae5-349d40aca471" >
 		<ee:transform doc:name="Transform Message" doc:id="b6b4530a-7a60-48ff-a367-1028162d3607" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[vars.query]]></ee:set-payload>
+				<ee:set-payload ><![CDATA[vars.where]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Before salesforce" doc:id="2c2ef2f5-e09c-42ab-897c-bdace7017d32" message="Before salesforce"/>
+		<ee:transform doc:name="Transform Message" doc:id="954edfd1-51f1-4aaa-9870-e131f85c47e8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+if (vars.where != null and vars.field != null) "SELECT" ++ " " ++ vars.field ++ " " ++ "FROM Lead where" ++ " " ++ vars.where 
+else if (vars.where != null and vars.field == null) "SELECT FIELDS(ALL) FROM Lead where" ++ " " ++ vars.where ++ " " ++ "LIMIT 200"
+else if (vars.where == null and vars.field != null) "SELECT" ++ " " ++ vars.field ++ " " ++ "FROM Lead" 
+else "SELECT FIELDS(ALL) FROM Lead LIMIT 200" ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 		<salesforce:query doc:name="Query" doc:id="40fb6776-b115-43dc-af9c-b0ebf8b8f40b" config-ref="salesforce_Config">
-			<salesforce:salesforce-query ><![CDATA[SELECT Name FROM Lead]]></salesforce:salesforce-query>
+			<salesforce:salesforce-query ><![CDATA[#[payload]]]></salesforce:salesforce-query>
 		</salesforce:query>
 		<logger level="INFO" doc:name="After salesforce" doc:id="3d22e8ea-aaf8-4ba1-a22f-5d4249c5e39d" message="After salesforce"/>
 		<ee:transform doc:name="response" doc:id="40c82ca2-52d9-425a-88ac-269441dbb5a4" >

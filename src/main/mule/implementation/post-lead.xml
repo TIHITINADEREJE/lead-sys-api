@@ -14,6 +14,7 @@ output application/java
 ---
 payload map (data, index) ->
 {
+	"Id" : data.Id,
 	"FirstName": data."First Name",
     "LastName" : data."Last Name",
     "Title": data.Title,
@@ -25,7 +26,8 @@ payload map (data, index) ->
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<salesforce:create doc:name="Create" doc:id="7c733132-3193-4f65-8fbf-822f69085150" config-ref="salesforce_Config" type="Lead"/>
+		<!-- [STUDIO:"Create"]<salesforce:create doc:name="Create" doc:id="7c733132-3193-4f65-8fbf-822f69085150" config-ref="salesforce_Config" type="Lead"/> [STUDIO] -->
+		<salesforce:upsert objectType="Lead" externalIdFieldName="Id" doc:name="Upsert" doc:id="100bef3f-74f8-4c05-bb63-2236ad2eb291" config-ref="salesforce_Config"/>
 		<logger level="INFO" doc:name="After salesforce" doc:id="8bba8c42-0326-4edf-83f5-3f269ed1c455" message="After salesforce" />
 		<ee:transform doc:name="Transform Message" doc:id="b5e82bc1-654f-454b-b77c-5cc344a08f19" >
 			<ee:message >

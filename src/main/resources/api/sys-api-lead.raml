@@ -8,20 +8,14 @@ title: sys-api-lead
       Name:
         type: string
         required : false
-      Title:
-        type: string
-        required : false
       Company:
         type: string
         required : false
       Lead Status:
         type: string
         required : false
-      Lead Source:
+      Id:
         type: string
-        required : false
-      Last Activity:
-        type: date-only
         required : false
     responses:
       200:
@@ -33,9 +27,11 @@ title: sys-api-lead
                   "Name": "Amy Jordan",
                   "Title": "VP Purchasing",
                   "Company": "Lee Enterprise, Inc",
+                  "Id": "00QQH000007XLg32AG",
                   "Lead Status": "New",
-                  "Lead Source" : "Website",
-                  "Last Activity" : 18/9/2024
+                  "Lead Source" : "Web",
+                  "Phone": "012345678",
+                  "Email": "amyjordan@amy.com"
                 }
       400:
         body:
@@ -73,43 +69,52 @@ title: sys-api-lead
         items:
           type: object
           properties:
-            Name:
+            Id:
               type: string
-              required : false
+              required: false
+            First Name:
+              type: string
+              required: false
+            Last Name:
+              type: string
+              required: true
             Title:
               type: string
-              required : false
+              required: false
             Company:
               type: string
-              required : false
+              required: true
             Lead Status:
               type: string
-              required : false
+              required: true
             Lead Source:
               type: string
-              required : false
-            Last Activity:
-              type: date-only
-              required : false
+              required: false
         examples: 
           values:               
             [
               {
-                  "Name": "Amy Jordan",
-                  "Title": "VP Purchasing",
-                  "Company": "Lee Enterprise, Inc",
-                  "Lead Status": "New",
-                  "Lead Source" : "Website",
-                  "Last Activity" : 2024-09-18
-                },
+                "Id": "00QQH000007XLg32AG",
+                "First Name": "Amy",
+                "Last Name" : "Jordan",
+                "Title": "VP Purchasing",
+                "Company":  "Lee Enterprise, Inc",
+                "Lead Status" : "New",
+                "Lead Source" : "Web",
+                "Phone"  : "012345678",
+                "Email" : "amyjordan1234@amy.com"
+              },
               {
-                  "Name": "Andy Smith",
-                  "Title": "Vice President",
-                  "Company": "Universal Technologies",
-                  "Lead Status": "New",
-                  "Lead Source" : "Advertisement",
-                  "Last Activity" : 2024-09-27
-                }
+                "Id": "00QQH000007Y6mv2AC",
+                "First Name": "John",
+                "Last Name" : "Doe",
+                "Title": "Developer",
+                "Company":  "Uiversal Technologies",
+                "Lead Status" : "New",
+                "Lead Source" : "Web",
+                "Phone"  : "1234567890",
+                "Email" : "johndoe@jon.com"
+              }
             ]
     responses:
       201:

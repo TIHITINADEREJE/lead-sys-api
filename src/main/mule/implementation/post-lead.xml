@@ -26,16 +26,32 @@ payload map (data, index) ->
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<!-- [STUDIO:"Create"]<salesforce:create doc:name="Create" doc:id="7c733132-3193-4f65-8fbf-822f69085150" config-ref="salesforce_Config" type="Lead"/> [STUDIO] -->
-		<salesforce:upsert objectType="Lead" externalIdFieldName="Id" doc:name="Upsert" doc:id="100bef3f-74f8-4c05-bb63-2236ad2eb291" config-ref="salesforce_Config"/>
+		<salesforce:upsert objectType="Lead" externalIdFieldName="Id" doc:name="Upsert" doc:id="100bef3f-74f8-4c05-bb63-2236ad2eb291" config-ref="salesforce_Config" />
 		<logger level="INFO" doc:name="After salesforce" doc:id="8bba8c42-0326-4edf-83f5-3f269ed1c455" message="After salesforce" />
-		<ee:transform doc:name="Transform Message" doc:id="b5e82bc1-654f-454b-b77c-5cc344a08f19" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+		<ee:transform doc:name="Transform Message" doc:id="b5e82bc1-654f-454b-b77c-5cc344a08f19">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
+var response = payload.items[0]
 ---
-payload]]></ee:set-payload>
+[
+    {
+        "created": response.payload.created,
+        "success": response.payload.success,
+        "id": response.payload.id,
+        "errors": response.statusCode
+    }
+]]]></ee:set-payload>
 			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="statusCode"><![CDATA[%dw 2.0
+output application/java
+var response = payload.items[0]
+---
+if ((response.payload.created is true) and response.payload.success is true) 201 
+else if ((response.payload.created is false) and response.payload.success is true) 200
+else 500 ]]></ee:set-variable>
+			</ee:variables>
 		</ee:transform>
 	</flow>
 </mule>

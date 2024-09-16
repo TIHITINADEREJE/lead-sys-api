@@ -5,34 +5,31 @@ title: sys-api-lead
 /lead:
   get:
     queryParameters:
-      Name:
-        type: string
-        required : false
-      Company:
-        type: string
-        required : false
-      Lead Status:
-        type: string
-        required : false
       Id:
         type: string
-        required : false
     responses:
       200:
         body:
           application/json:
             examples: 
               values:             
-                {
-                  "Name": "Amy Jordan",
-                  "Title": "VP Purchasing",
-                  "Company": "Lee Enterprise, Inc",
-                  "Id": "00QQH000007XLg32AG",
-                  "Lead Status": "New",
-                  "Lead Source" : "Web",
-                  "Phone": "012345678",
-                  "Email": "amyjordan@amy.com"
-                }
+                [
+                  {
+                      "LastModifiedDate": "2024-09-07T04:03:24.000Z",
+                      "Company": "20th century Movies",
+                      "IsDeleted": "false",
+                      "Email": "jenniferlawrence@jennifer.com",
+                      "Address": null,
+                      "IsConverted": "false",
+                      "Title": "Director",
+                      "type": "Lead",
+                      "Name": "Jennifer Lawrence",
+                      "Phone": "234567890",
+                      "CreatedDate": "2024-09-06T17:52:49.000Z",
+                      "Country": null,
+                      "Id": "00QQH000007YBBW2A4"
+                  }
+                ]
       400:
         body:
           application/json:
@@ -94,7 +91,6 @@ title: sys-api-lead
           values:               
             [
               {
-                "Id": "00QQH000007XLg32AG",
                 "First Name": "Amy",
                 "Last Name" : "Jordan",
                 "Title": "VP Purchasing",
@@ -103,17 +99,6 @@ title: sys-api-lead
                 "Lead Source" : "Web",
                 "Phone"  : "012345678",
                 "Email" : "amyjordan1234@amy.com"
-              },
-              {
-                "Id": "00QQH000007Y6mv2AC",
-                "First Name": "John",
-                "Last Name" : "Doe",
-                "Title": "Developer",
-                "Company":  "Uiversal Technologies",
-                "Lead Status" : "New",
-                "Lead Source" : "Web",
-                "Phone"  : "1234567890",
-                "Email" : "johndoe@jon.com"
               }
             ]
     responses:

@@ -34,14 +34,13 @@ payload map (data, index) ->
 output application/json
 var response = payload.items[0]
 ---
-[
-    {
-        "created": response.payload.created,
-        "success": response.payload.success,
-        "id": response.payload.id,
-        "errors": response.statusCode
-    }
-]]]></ee:set-payload>
+if ((response.payload.created is true) and response.payload.success is true) {message : "Item successfully created",
+  Id : response.payload.Id
+} 
+else if ((response.payload.created is false) and response.payload.success is true) {message : "Item successfully updated",
+  Id : response.payload.Id
+} 
+else {message : response.statusCode}]]></ee:set-payload>
 			</ee:message>
 			<ee:variables>
 				<ee:set-variable variableName="statusCode"><![CDATA[%dw 2.0
